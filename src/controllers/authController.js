@@ -1,22 +1,19 @@
 const db = require("../database/firebase");
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const JWT_SECRET = "MEU_SEGREDO_SUPER_SEGURO"; // depois movemos para .env
+const JWT_SECRET = "MEU_SEGREDO_SUPER_SEGURO"; // mover para .env depois
 
 // -------------------------------------------------------
-// REGISTRAR USUÁRIO (admin)
+// REGISTRAR USUÁRIO (admin) — AGORA SEM BCRYPT
 // -------------------------------------------------------
 async function register(req, res) {
   try {
     const { nome, email, senha } = req.body;
 
-    const hash = await bcrypt.hash(senha, 10);
-
     const ref = await db.collection("usuarios").add({
       nome,
       email,
-      senha: hash,
+      senha, // senha pura
       perfil: "admin",
       createdAt: new Date()
     });
@@ -28,7 +25,7 @@ async function register(req, res) {
 }
 
 // -------------------------------------------------------
-// LOGIN
+// LOGIN — AGORA 100% TEXTO PURO
 // -------------------------------------------------------
 async function login(req, res) {
   try {
@@ -45,8 +42,8 @@ async function login(req, res) {
     const userDoc = snap.docs[0];
     const user = userDoc.data();
 
-    const senhaCorreta = await bcrypt.compare(senha, user.senha);
-    if (!senhaCorreta) {
+    // VALIDAÇÃO SIMPLES
+    if (senha !== user.senha) {
       return res.status(400).json({ error: "Senha incorreta" });
     }
 
@@ -60,7 +57,7 @@ async function login(req, res) {
       { expiresIn: "8h" }
     );
 
-    res.json({
+    return res.json({
       token,
       usuario: {
         id: userDoc.id,
@@ -71,7 +68,7 @@ async function login(req, res) {
     });
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 }
 
