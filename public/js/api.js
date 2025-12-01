@@ -14,10 +14,22 @@ async function apiPost(path, body) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body)
   });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error || 'Erro ao salvar');
+
+  let data = {};
+  try {
+    data = await res.json();
+  } catch {
+    // evita erro "Unexpected end of JSON input"
+    data = { error: "Resposta inválida do servidor" };
+  }
+
+  if (!res.ok) {
+    throw new Error(data.error || "Erro no servidor");
+  }
+
   return data;
 }
+
 
 async function apiPut(path, body) {
   const res = await fetch(API_BASE + path, {

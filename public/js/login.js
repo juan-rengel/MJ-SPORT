@@ -1,15 +1,5 @@
-console.log("LOGIN.JS FOI CARREGADO!");
-
-
-
 document.addEventListener("DOMContentLoaded", () => {
-
   const form = document.getElementById("formLogin");
-
-  if (!form) {
-    console.error("ERRO: formLogin não encontrado no DOM");
-    return;
-  }
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -30,5 +20,4 @@ document.addEventListener("DOMContentLoaded", () => {
         err.error || "Credenciais inválidas";
     }
   });
-
 });
