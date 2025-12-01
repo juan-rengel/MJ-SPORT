@@ -43,3 +43,7 @@ app.listen(PORT, () => {
 
 const historyRoutes = require("./src/routes/historyRoutes");
 app.use("/api/historico", historyRoutes);
+
+
+const exportRoutes = require("./src/routes/exportRoutes");
+app.use("/api/exportar", exportRoutes);

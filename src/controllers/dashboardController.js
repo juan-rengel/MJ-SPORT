@@ -1,3 +1,40 @@
+const db = require("../database/firebase");
+
+// ---------------------------------------------------------------
+// SUMMARY GERAL DO SISTEMA (DASHBOARD PRINCIPAL)
+// ---------------------------------------------------------------
+async function getSummary(req, res) {
+  try {
+    const vendasSnap = await db.collection("vendas").get();
+    const produtosSnap = await db.collection("produtos").get();
+
+    let totalFaturado = 0;
+    let totalVendido = 0;
+
+    vendasSnap.forEach(doc => {
+      const v = doc.data();
+      if (v.status === "concluida") {
+        totalFaturado += v.total;
+        totalVendido += v.total;
+      }
+    });
+
+    res.json({
+      totalFaturado,
+      totalVendido,
+      produtosQtd: produtosSnap.size,
+      vendasQtd: vendasSnap.size
+    });
+
+  } catch (err) {
+    console.error("Erro em getSummary:", err);
+    res.status(500).json({ error: err.message });
+  }
+}
+
+// ---------------------------------------------------------------
+// RESUMO POR PERÍODO (USADO EM RELATÓRIOS / REPORTS)
+// ---------------------------------------------------------------
 async function getSummaryByPeriod(req, res) {
   try {
     const { inicio, fim } = req.body;
@@ -29,6 +66,7 @@ async function getSummaryByPeriod(req, res) {
             total: 0
           };
         }
+
         produtosVendidos[item.produtoId].quantidade += item.quantidade;
         produtosVendidos[item.produtoId].total += item.precoVenda * item.quantidade;
 
@@ -38,16 +76,11 @@ async function getSummaryByPeriod(req, res) {
       });
     });
 
-    // Ordenar produtos mais vendidos
-    const maisVendidos = Object.values(produtosVendidos)
-      .sort((a, b) => b.quantidade - a.quantidade);
-
-    // Gráfico por dia
     let faturamentoDias = {};
+
     vendasSnap.forEach(doc => {
       const v = doc.data();
       const d = v.createdAt.toDate().toLocaleDateString("pt-BR");
-
       faturamentoDias[d] = (faturamentoDias[d] || 0) + v.total;
     });
 
@@ -59,18 +92,21 @@ async function getSummaryByPeriod(req, res) {
       totalVendido: faturamentoTotal,
       lucro,
       margem,
-      maisVendidos,
+      maisVendidos: Object.values(produtosVendidos).sort((a, b) => b.quantidade - a.quantidade),
       categorias,
       faturamentoDias
     });
 
   } catch (err) {
+    console.error("Erro em getSummaryByPeriod:", err);
     res.status(500).json({ error: err.message });
   }
 }
 
+// ---------------------------------------------------------------
+// EXPORTAR AS DUAS FUNÇÕES
+// ---------------------------------------------------------------
 module.exports = {
   getSummary,
   getSummaryByPeriod
 };
-

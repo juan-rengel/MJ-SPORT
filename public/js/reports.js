@@ -103,3 +103,16 @@ function gerarGraficoCategorias(data) {
     options: { responsive: true }
   });
 }
+
+
+function gerarPDF() {
+  apiPost("/api/exportar/relatorio/pdf", {
+    titulo: "Relatório Personalizado",
+    dados: {
+      Faturamento: "R$ 3.500",
+      Vendas: 18,
+      Lucro: "R$ 1.200"
+    }
+  });
+}
+
