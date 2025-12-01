@@ -47,3 +47,7 @@ app.use("/api/historico", historyRoutes);
 
 const exportRoutes = require("./src/routes/exportRoutes");
 app.use("/api/exportar", exportRoutes);
+
+
+const authRoutes = require("./src/routes/authRoutes");
+app.use("/api/auth", authRoutes);
