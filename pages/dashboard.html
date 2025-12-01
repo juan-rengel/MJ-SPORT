@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard - Sistema de Vendas</title>
+  <link rel="stylesheet" href="/public/css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-logo">LOJA<span>IA</span></div>
+
+    <div class="nav-section-title">GERAL</div>
+    <a href="/pages/dashboard.html" class="nav-link active">Dashboard</a>
+    <a href="/pages/products.html" class="nav-link">Produtos</a>
+    <a href="/pages/sales.html" class="nav-link">Vendas</a>
+    <a href="/pages/stock.html" class="nav-link">Estoque</a>
+    <a href="/pages/reports.html" class="nav-link">Relatórios</a>
+  </aside>
+
+  <main class="main">
+    <header class="main-header">
+      <div>
+        <div class="main-title">Visão geral</div>
+        <div class="main-subtitle">Resumo financeiro e de desempenho da loja</div>
+      </div>
+      <div>
+        <button class="btn-outline" onclick="location.href='/pages/sales.html'">Nova venda</button>
+      </div>
+    </header>
+
+    <section class="grid grid-4">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Faturamento total</div>
+        </div>
+        <div class="card-value" id="fat-total">R$ 0,00</div>
+        <div class="card-meta">Período completo</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Total investido</div>
+        </div>
+        <div class="card-value" id="total-investido">R$ 0,00</div>
+        <div class="card-meta">Custo de estoque atual</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Lucro líquido</div>
+        </div>
+        <div class="card-value" id="lucro-liquido">R$ 0,00</div>
+        <div class="card-meta" id="margem-lucro">Margem 0%</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Produtos em baixo estoque</div>
+        </div>
+        <div class="card-value" id="baixo-estoque-count">0</div>
+        <div class="card-meta"><a href="/pages/stock.html">Ver detalhes</a></div>
+      </div>
+    </section>
+
+    <section class="grid" style="grid-template-columns: 2fr 1fr;">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Faturamento por categoria</div>
+        </div>
+        <canvas id="chartCategorias" height="120"></canvas>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Atalhos rápidos</div>
+        </div>
+        <div class="grid">
+          <button class="btn" onclick="location.href='/pages/products.html'">Cadastrar produto</button>
+          <button class="btn" onclick="location.href='/pages/sales.html'">Registrar venda</button>
+          <button class="btn" onclick="location.href='/pages/reports.html'">Relatórios</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/public/js/api.js"></script>
+  <script src="/public/js/dashboard.js"></script>
+</body>
+</html>

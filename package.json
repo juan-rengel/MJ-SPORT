@@ -1,0 +1,19 @@
+{
+  "name": "loja-vendas",
+  "version": "1.0.0",
+  "description": "Sistema de vendas, estoque e faturamento para loja por categoria",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.0",
+    "firebase-admin": "^12.0.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
