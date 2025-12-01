@@ -39,3 +39,7 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
+
+
+const historyRoutes = require("./src/routes/historyRoutes");
+app.use("/api/historico", historyRoutes);
