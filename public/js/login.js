@@ -1,4 +1,6 @@
-console.log("LOGIN.JS CARREGOU!");
+console.log("LOGIN.JS FOI CARREGADO!");
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
 

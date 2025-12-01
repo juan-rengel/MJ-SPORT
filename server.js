@@ -27,7 +27,12 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 // Páginas HTML
 app.use('/pages', express.static(path.join(__dirname, 'pages')));
 
-// ROTAS API — TODAS DEVEM VIR ANTES DO listen()
+// 👉 ESTA ROTA DEVE VIR AQUI  
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "pages", "login.html"));
+});
+
+// ROTAS API
 app.use("/api/auth", authRoutes);
 app.use("/api/produtos", productRoutes);
 app.use("/api/categorias", categoryRoutes);
@@ -42,7 +47,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'pages', 'dashboard.html'));
 });
 
-// INICIAR SERVIDOR — SEMPRE DEVE SER A ÚLTIMA LINHA
+// 👉 NADA DE ROTAS AQUI EMBAIXO  
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
